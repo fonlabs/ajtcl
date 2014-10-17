@@ -412,7 +412,7 @@ if env['TARG'] in [ 'win32', 'linux', 'darwin' ]:
     env['aj_shobj'] = env.SharedObject(srcs)
 
     # Build language bindings
-    for lang in env.get('LANG',{}):
+    for lang in env.get('LANG',[]):
         swig_env = env.Clone()
         swig_env.Append(SWIGFLAGS=['-'+lang])
         swig_env.Append(SWIGPATH=['inc/','target/'+env['TARG']])
