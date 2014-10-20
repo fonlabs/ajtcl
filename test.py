@@ -11,7 +11,6 @@ sample_interface = (
     '?Dummy foo<i',
     '?Dummy2 fee<i',
     '?cat inStr1<s inStr2<s outStr>s',
-    None
 )
 
 sample_interfaces = sample_interface
