@@ -1,4 +1,5 @@
 #!/usr/bin/python2
+from __future__ import print_function
 __author__ = 'javier'
 
 import alljoyn
@@ -19,7 +20,9 @@ obj = alljoyn.AJ_Object()
 obj.path = service_path
 obj.interfaces = sample_interfaces
 
-app_objects = [obj]
+print(obj)
+
+app_objects = obj
 
 alljoyn.AJ_Initialize()
 alljoyn.AJ_PrintXML(app_objects)
