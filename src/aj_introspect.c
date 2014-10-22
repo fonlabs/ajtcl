@@ -1589,15 +1589,15 @@ const AJ_Object* AJ_NextObject(AJ_ObjectIterator* iter)
 }
 
 
-AJ_InterfaceDescription** AJ_InterfacesCreate()
+AJ_InterfaceDescription* AJ_InterfacesCreate()
 {
     char ***array;
     array = AJ_Malloc(sizeof(char**));
     array[0] = NULL;
-    return (AJ_InterfaceDescription **) array;
+    return (AJ_InterfaceDescription *) array;
 }
 
-AJ_Status AJ_InterfacesAdd(AJ_InterfaceDescription **array, AJ_InterfaceDescription *item)
+AJ_InterfaceDescription* AJ_InterfacesAdd(AJ_InterfaceDescription *array, char **item)
 {
     int size = 0;
     char ***iter = (char ***) array;
@@ -1607,24 +1607,24 @@ AJ_Status AJ_InterfacesAdd(AJ_InterfaceDescription **array, AJ_InterfaceDescript
         iter++;
     }
 
-    iter = AJ_Realloc(array, sizeof(char**) * (size + 2));
+    iter = AJ_Realloc((void *)array, sizeof(char**) * (size + 2));
     if (!iter)
-        return AJ_ERR_UNKNOWN;
+        return NULL;
 
-    array = (AJ_InterfaceDescription**) iter;
+    array = (AJ_InterfaceDescription*) iter;
 
-    iter[size] = (char **) item;
+    iter[size] = item;
     iter[size + 1] = NULL;
 
-    return AJ_OK;
+    return array;
 }
 
-AJ_Status AJ_InterfacesDelete(AJ_InterfaceDescription **array)
+AJ_Status AJ_InterfacesDelete(AJ_InterfaceDescription *array)
 {
-    char **iter = (char **) array;
+    char ***iter = (char ***) array;
 
     while (*iter) {
-        AJ_InterfaceDescriptionDelete((AJ_InterfaceDescription*) *iter);
+        AJ_InterfaceDescriptionDelete(*iter);
         *iter = NULL;
         iter++;
     }
@@ -1633,7 +1633,7 @@ AJ_Status AJ_InterfacesDelete(AJ_InterfaceDescription **array)
     return AJ_OK;
 }
 
-AJ_InterfaceDescription* AJ_InterfaceDescriptionCreate(char *interfaceName)
+char ** AJ_InterfaceDescriptionCreate(char *interfaceName)
 {
     char **interface;
     interface = AJ_Malloc(sizeof(char*) * 2);
@@ -1650,44 +1650,44 @@ AJ_InterfaceDescription* AJ_InterfaceDescriptionCreate(char *interfaceName)
 
     strcpy(interface[0], interfaceName);
 
-    return (AJ_InterfaceDescription*) interface;
+    return interface;
 }
 
-AJ_Status AJ_InterfaceDescriptionAdd(AJ_InterfaceDescription *interfaceDescription, char *description)
+char ** AJ_InterfaceDescriptionAdd(char **interfaceDescription, char *description)
 {
     int size = 0;
-    char **iter = (char **) *interfaceDescription;
+    char **iter = interfaceDescription;
 
     while (*iter) {
         iter++;
         size++;
     }
 
-    iter = AJ_Realloc((void*) *interfaceDescription, sizeof(char*) * (size + 2));
+    iter = AJ_Realloc( interfaceDescription, sizeof(char*) * (size + 2));
     if (!iter)
-        return AJ_ERR_UNKNOWN;
-    *interfaceDescription = (AJ_InterfaceDescription) iter;
+        return NULL;
+    interfaceDescription = iter;
 
     iter[size] = AJ_Malloc(strlen(description) + 1);
     if (!iter[size]) {
-        return AJ_ERR_UNKNOWN;
+        return NULL;
     }
 
     strcpy(iter[size], description);
 
     iter[size + 1] = NULL;
 
-    return AJ_OK;
+    return interfaceDescription;
 }
 
-AJ_Status AJ_InterfaceDescriptionDelete(AJ_InterfaceDescription *interfaceDescription)
+AJ_Status AJ_InterfaceDescriptionDelete(char **interfaceDescription)
 {
-    char **iter = (char **) interfaceDescription;
+    char **iter = interfaceDescription;
     while (*iter) {
         AJ_Free(*iter);
         *iter = NULL;
         iter++;
     }
-    AJ_Free((void*) *interfaceDescription);
+    AJ_Free(interfaceDescription);
     return AJ_OK;
 }

@@ -320,37 +320,37 @@ const AJ_Object* AJ_NextObject(AJ_ObjectIterator* iter);
  * Create an interface list that can be attached to an object
  */
 AJ_EXPORT
-AJ_InterfaceDescription** AJ_InterfacesCreate();
+AJ_InterfaceDescription* AJ_InterfacesCreate();
 
 /**
  * Add interfaces to a list
  */
 AJ_EXPORT
-AJ_Status AJ_InterfacesAdd(AJ_InterfaceDescription **, AJ_InterfaceDescription *);
+AJ_InterfaceDescription* AJ_InterfacesAdd(AJ_InterfaceDescription *, char**);
 
 /**
  * Delete a interface list recursively
  */
 AJ_EXPORT
-AJ_Status AJ_InterfacesDelete(AJ_InterfaceDescription **);
+AJ_Status AJ_InterfacesDelete(AJ_InterfaceDescription *);
 
 /**
  * Create an interface that can be added to a list
  */
 AJ_EXPORT
-AJ_InterfaceDescription* AJ_InterfaceDescriptionCreate(char *);
+char ** AJ_InterfaceDescriptionCreate(char *);
 
 /**
  * Add an entry to the interface
  */
 AJ_EXPORT
-AJ_Status AJ_InterfaceDescriptionAdd(AJ_InterfaceDescription *, char *);
+char ** AJ_InterfaceDescriptionAdd(char **, char *);
 
 /**
  * Delete a interface
  */
 AJ_EXPORT
-AJ_Status AJ_InterfaceDescriptionDelete(AJ_InterfaceDescription *);
+AJ_Status AJ_InterfaceDescriptionDelete(char**);
 
 /**
  * This function checks that a message ifrom a remote peer is valid and correct and returns the
