@@ -7,14 +7,14 @@ import alljoyn
 service_name = 'org.alljoyn.Bus.sample'
 service_path = '/sample'
 service_port = 25
-sample_interface = (
-    'org.alljoyn.Bus.sample',
-    '?Dummy foo<i',
-    '?Dummy2 fee<i',
-    '?cat inStr1<s inStr2<s outStr>s',
-)
 
-sample_interfaces = sample_interface
+sample_interfaces = alljoyn.AJ_InterfacesCreate()
+
+sample_interface = alljoyn.AJ_InterfaceDescriptionCreate('org.alljoyn.Bus.sample')
+alljoyn.AJ_InterfaceDescriptionAdd(sample_interface, '?Dummy foo<i')
+alljoyn.AJ_InterfaceDescriptionAdd(sample_interface, '?Dummy2 fee<i')
+alljoyn.AJ_InterfaceDescriptionAdd(sample_interface, '?cat inStr1<s inStr2<s outStr>s')
+alljoyn.AJ_InterfacesAdd(sample_interfaces, sample_interface)
 
 obj = alljoyn.AJ_Object()
 obj.path = service_path
