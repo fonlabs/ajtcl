@@ -7,7 +7,7 @@
 
 // This is the mapping for AJ_StartClient's sessionId
 
-%apply int *OUTPUT { uint32_t *sessionId };
+%apply long *OUTPUT { uint32_t *sessionId };
 %apply char *OUTPUT { char *serviceName };
 
 %include aj_helper.h
