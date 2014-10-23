@@ -26,17 +26,38 @@ obj = alljoyn.AJ_Object()
 obj.path = service_path
 obj.interfaces = sample_interfaces
 
-print(obj)
-
-app_objects = obj
+app_objects = alljoyn.AJ_ObjectsCreate()
+app_objects = alljoyn.AJ_ObjectsAdd(app_objects, obj)
 
 alljoyn.AJ_Initialize()
 alljoyn.AJ_PrintXML(app_objects)
+alljoyn.AJ_RegisterObjects(None,app_objects)
 bus = alljoyn.AJ_BusAttachment()
-sessionid = alljoyn.AJ_StartClient(bus,
+status, sessionid = alljoyn.AJ_StartClient(bus,
                                    None,
                                    60 * 1000,
                                    alljoyn.FALSE,
                                    service_name,
                                    service_port,
                                    None)
+
+msg1 = alljoyn._AJ_Message()
+basic_client_cat = alljoyn.AJ_PRX_MESSAGE_ID(0,0,2)
+
+print('Checkpoint')
+status = alljoyn.AJ_MarshalMethodCall(bus, msg1, basic_client_cat,
+                                      service_name, sessionid, 0, (1000))
+print('Checkpoint')
+alljoyn.AJ_MarshalArgs(msg1, 'ss', 'Hello ', 'World!')
+print('Checkpoint')
+alljoyn.AJ_DeliverMsg(msg1)
+
+print('Checkpoint')
+
+msg2 = alljoyn._AJ_Message()
+status = alljoyn.AJ_UnmarshalMsg(bus, msg2, 5000)
+if msg2.msgId == alljoyn.AJ_REPLY_ID(basic_client_cat):
+    arg = alljoyn._AJ_Arg()
+    alljoyn.AJ_UnmarshalArg(msg2, arg)
+    print(service_name+'.cat', "(path='%s')".format(service_path), 'returned',
+          "'%s'".format(arg.val.v_string))

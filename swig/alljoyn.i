@@ -7,9 +7,10 @@
 #include <alljoyn.h>
 %}
 
-%apply unsigned int {uint8_t}
+%apply unsigned short {uint8_t}
 %apply unsigned int {uint16_t}
 %apply unsigned long {uint32_t}
+%rename(_AJ_Message) AJ_Message;
 
 %include aj_target.i
 %include aj_debug.i
