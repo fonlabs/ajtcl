@@ -1602,12 +1602,12 @@ AJ_InterfaceDescription* AJ_InterfacesAdd(AJ_InterfaceDescription *array, char *
     int size = 0;
     char ***iter = (char ***) array;
 
-    while (*iter){
+    while (*iter) {
         size++;
         iter++;
     }
 
-    iter = AJ_Realloc((void *)array, sizeof(char**) * (size + 2));
+    iter = AJ_Realloc((void *) array, sizeof(char**) * (size + 2));
     if (!iter)
         return NULL;
 
@@ -1628,7 +1628,7 @@ AJ_Status AJ_InterfacesDelete(AJ_InterfaceDescription *array)
         *iter = NULL;
         iter++;
     }
-    AJ_Free(*array);
+    AJ_Free((void*) *array);
     array = NULL;
     return AJ_OK;
 }
@@ -1663,7 +1663,7 @@ char ** AJ_InterfaceDescriptionAdd(char **interfaceDescription, char *descriptio
         size++;
     }
 
-    iter = AJ_Realloc( interfaceDescription, sizeof(char*) * (size + 2));
+    iter = AJ_Realloc(interfaceDescription, sizeof(char*) * (size + 2));
     if (!iter)
         return NULL;
     interfaceDescription = iter;
@@ -1690,4 +1690,33 @@ AJ_Status AJ_InterfaceDescriptionDelete(char **interfaceDescription)
     }
     AJ_Free(interfaceDescription);
     return AJ_OK;
+}
+
+AJ_Object* AJ_ObjectsCreate()
+{
+    AJ_Object *list, initializer = { NULL };
+    list = AJ_Malloc(sizeof(AJ_Object));
+    *list = initializer;
+    return list;
+}
+
+AJ_Object* AJ_ObjectsAdd(AJ_Object *list, AJ_Object item)
+{
+    int size = 0;
+    AJ_Object *iter = list, initializer = {NULL};
+
+    while (iter->path) {
+        size++;
+        iter++;
+    }
+
+    iter = AJ_Realloc(list, sizeof(AJ_Object) * (size + 2));
+    if (!iter)
+        return NULL;
+
+    list = iter;
+    iter[size] = item;
+    iter[size + 1] = initializer;
+
+    return list;
 }

@@ -353,6 +353,18 @@ AJ_EXPORT
 AJ_Status AJ_InterfaceDescriptionDelete(char**);
 
 /**
+ * Create object list
+ */
+AJ_EXPORT
+AJ_Object* AJ_ObjectsCreate();
+
+/**
+ * Add objects to the list
+ */
+AJ_EXPORT
+AJ_Object* AJ_ObjectsAdd(AJ_Object *, AJ_Object);
+
+/**
  * This function checks that a message ifrom a remote peer is valid and correct and returns the
  * message id for that message.
  *
