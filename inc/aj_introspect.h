@@ -142,7 +142,7 @@ typedef const char* const* AJ_InterfaceDescription;
  * objIdx index of the object in its registered object list
  * ifaceIdx index of the interface in the object description for this object index.
  */
-#define AJ_DESC_ID_FROM_INTERFACE_INDEX(objIdx, ifaceIdx) (AJ_DESC_ID_FROM_OBJ_INDEX(objIdx) | (((uint32_t)(ifaceIdx) & 0xFF) + 0x1)) << 16))
+#define AJ_DESC_ID_FROM_INTERFACE_INDEX(objIdx, ifaceIdx) ((AJ_DESC_ID_FROM_OBJ_INDEX(objIdx) | (((uint32_t)(ifaceIdx) & 0xFF) + 0x1)) << 16)
 
 /* end of helper macros */
 
