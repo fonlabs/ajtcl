@@ -44,3 +44,4 @@ test/codisco
 test/nvramdump
 test/sessionslite
 test/sigtest
+*.so
